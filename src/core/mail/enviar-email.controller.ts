@@ -1,7 +1,6 @@
 import { Controller, Logger } from '@nestjs/common';
 import {
   Ctx,
-  EventPattern,
   MessagePattern,
   Payload,
   RmqContext,
@@ -30,7 +29,7 @@ export class EnviarEmailController {
         `recieve message 'enviar-email': ${data.template} - ${data.to}`,
       );
 
-      this.enviarEmailService.enviarWithTemplate(data);
+      await this.enviarEmailService.enviarWithTemplate(data);
     } catch (error) {
       this.logger.error(error.message);
     } finally {
@@ -39,10 +38,5 @@ export class EnviarEmailController {
         `recieve message 'enviar-email' [OK]: ${data.template} - ${data.to}`,
       );
     }
-  }
-
-  @EventPattern('send_email')
-  public sendEmailPattern(@Payload() data): void {
-    console.log('send_email', data);
   }
 }
